@@ -5,6 +5,7 @@ import SearchBar from './components/SearchBar';
 import './styles.css';
 
 const App = () => {
+    const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://93.183.68.60:8080';
     const [activeTab, setActiveTab] = useState('/all/');
     const [questions, setQuestions] = useState([]);
     const [searchResults, setSearchResults] = useState(null);
@@ -18,7 +19,7 @@ const App = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`http://localhost:8080${endpoint}`);
+            const response = await fetch(`${API_BASE_URL}${endpoint}`);
             if (!response.ok) {
                 throw new Error(`Ошибка HTTP: ${response.status}`);
             }
@@ -47,7 +48,7 @@ const App = () => {
         setError(null);
         try {
             const response = await fetch(
-                `http://localhost:8080/search?query=${encodeURIComponent(trimmedQuery)}&searchInAnswers=${searchInAnswersFlag}`
+                `${API_BASE_URL}/search?query=${encodeURIComponent(trimmedQuery)}&searchInAnswers=${searchInAnswersFlag}`
             );
 
             if (!response.ok) {
