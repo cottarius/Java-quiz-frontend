@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+docker-compose.*
+
 # testing
 /coverage
 
