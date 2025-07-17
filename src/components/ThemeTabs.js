@@ -1,6 +1,8 @@
+// ThemeTabs.js
 import React from 'react';
+import './ThemeTabs.css';
 
-const themes = [
+const tabs = [
     { path: '/all/', label: 'Все вопросы' },
     { path: '/primary/', label: 'Важные вопросы' },
     { path: '/core1/', label: 'Core 1' },
@@ -15,13 +17,13 @@ const themes = [
 const ThemeTabs = ({ activeTab, onTabChange }) => {
     return (
         <div className="theme-tabs">
-            {themes.map((theme) => (
+            {tabs.map(tab => (
                 <button
-                    key={theme.path}
-                    className={`tab ${activeTab === theme.path ? 'active' : ''}`}
-                    onClick={() => onTabChange(theme.path)}
+                    key={tab.path} // ✅ исправлено
+                    className={`tab-button ${activeTab === tab.path ? 'active' : ''}`}
+                    onClick={() => onTabChange(tab.path)}
                 >
-                    {theme.label}
+                    {tab.label}
                 </button>
             ))}
         </div>
