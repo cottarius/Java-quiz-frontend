@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
+import './QuestionCard.css'; // Добавим CSS-модуль или обычный файл
 
-// Выносим вспомогательные функции перед их использованием
 const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 const highlightText = (text, query) => {
@@ -16,13 +16,11 @@ const highlightText = (text, query) => {
 const QuestionCard = ({ question, searchQuery = '', searchInAnswers = false }) => {
     const [showAnswer, setShowAnswer] = useState(false);
 
-    // Мемоизированные значения
     const { highlightedQuestion, shouldHighlightAnswer } = useMemo(() => ({
         highlightedQuestion: searchQuery ? highlightText(question.question, searchQuery) : question.question,
         shouldHighlightAnswer: searchQuery && searchInAnswers
     }), [question.question, searchQuery, searchInAnswers]);
 
-    // Форматирование текста ответа
     const formatAnswerText = (text) => {
         if (!text) return null;
 
@@ -32,9 +30,9 @@ const QuestionCard = ({ question, searchQuery = '', searchInAnswers = false }) =
             .split('\n')
             .filter(line => line.trim())
             .map((paragraph, i) => (
-                <div key={i} className="answer-paragraph" style={{ whiteSpace: 'pre-wrap' }}>
+                <div key={i} className="answer-paragraph">
                     {paragraph.split('\t').map((segment, j) => (
-                        <span key={j} style={{ marginLeft: j > 0 ? '2em' : 0 }}>
+                        <span key={j} className={`answer-segment ${j > 0 ? 'tabbed' : ''}`}>
                             {shouldHighlightAnswer ? highlightText(segment, searchQuery) : segment}
                         </span>
                     ))}
@@ -45,22 +43,21 @@ const QuestionCard = ({ question, searchQuery = '', searchInAnswers = false }) =
     return (
         <div className={`question-card ${showAnswer ? 'expanded' : ''}`}>
             <div className="question-header">
-                <h3>Вопрос #{question.id}</h3>
+                <h3 className="question-title">Вопрос #{question.id}</h3>
                 <button
                     onClick={() => setShowAnswer(!showAnswer)}
-                    className="btn btn-primary"
-                    aria-expanded={showAnswer}
+                    className="toggle-button"
                 >
                     {showAnswer ? 'Скрыть ответ' : 'Показать ответ'}
                 </button>
             </div>
 
-            <div className="question-content">
+            <div className="question-text">
                 {highlightedQuestion}
             </div>
 
             {showAnswer && (
-                <div className="answer" aria-hidden={!showAnswer}>
+                <div className="answer-section">
                     <strong className="answer-label">Ответ:</strong>
                     <div className="answer-content">
                         {formatAnswerText(question.answer)}

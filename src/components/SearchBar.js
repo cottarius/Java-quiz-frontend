@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './SearchBar.css'; // добавь, если еще не подключён
 
 const SearchBar = ({ onSearch, onSearchInAnswersChange }) => {
     const [query, setQuery] = useState('');
@@ -9,33 +10,33 @@ const SearchBar = ({ onSearch, onSearchInAnswersChange }) => {
         onSearch(query, searchInAnswers);
     };
 
+    const toggleSearchInAnswers = () => {
+        const newValue = !searchInAnswers;
+        setSearchInAnswers(newValue);
+        onSearchInAnswersChange(newValue);
+    };
+
     return (
         <form onSubmit={handleSubmit} className="search-bar">
             <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Поиск вопросов..."
+                placeholder="Поиск вопросов или ответов..."
                 className="search-input"
             />
 
-            <div className="search-options">
-                <label className="search-option">
-                    <input
-                        type="checkbox"
-                        checked={searchInAnswers}
-                        onChange={() => {
-                            const newValue = !searchInAnswers;
-                            setSearchInAnswers(newValue);
-                            onSearchInAnswersChange(newValue);
-                        }}
-                    />
-                    Искать в ответах
-                </label>
-            </div>
+            <label className="search-checkbox">
+                <input
+                    type="checkbox"
+                    checked={searchInAnswers}
+                    onChange={toggleSearchInAnswers}
+                />
+                Искать в ответах
+            </label>
 
-            <button type="submit" className="btn btn-primary">
-                Поиск
+            <button type="submit" className="search-button">
+                🔍 Поиск
             </button>
         </form>
     );
