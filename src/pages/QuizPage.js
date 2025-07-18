@@ -3,11 +3,11 @@ import { useAuth } from '../auth/AuthContext';
 import ThemeTabs from '../components/ThemeTabs';
 import QuestionCard from '../components/QuestionCard';
 import SearchBar from '../components/SearchBar';
-import Navbar from '../components/Navbar';
+// import Navbar from '../components/Navbar';
 
 const QuizPage = () => {
     const API_BASE_URL = process.env.REACT_APP_API_URL;
-    const { authToken } = useAuth();
+    const { authToken, logout } = useAuth();
 
     const [activeTab, setActiveTab] = useState('/all/');
     const [questions, setQuestions] = useState([]);
@@ -79,9 +79,13 @@ const QuizPage = () => {
 
     return (
         <div className="quiz-page">
-            <Navbar />
             <div className="quiz-header">
-                <ThemeTabs activeTab={activeTab} onTabChange={setActiveTab} />
+                <div className="quiz-header-top">
+                    <ThemeTabs activeTab={activeTab} onTabChange={setActiveTab} />
+                    <button className="logout-button" onClick={() => logout()}>
+                        Выйти
+                    </button>
+                </div>
                 <SearchBar onSearch={handleSearch} onSearchInAnswersChange={setSearchInAnswers} />
             </div>
 
